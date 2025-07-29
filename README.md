@@ -63,3 +63,16 @@ _Ejemplo embebido de estilo HTML dentro del README:_
 
 ```html
 <p style="font-size:18px; color:#FF5733;">Texto con estilo personalizado.</p>
+```
+
+## 📚 Gestión de Usuarios
+
+Este prototipo incluye un pequeño CRUD desarrollado con Flask para manejar usuarios y roles.
+Para iniciar el servidor local ejecute:
+
+```bash
+pip install -r requirements.txt
+python run.py
+```
+
+Luego, las operaciones pueden realizarse mediante peticiones HTTP sobre el endpoint `/users`.
