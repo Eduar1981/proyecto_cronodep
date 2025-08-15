@@ -63,3 +63,7 @@ _Ejemplo embebido de estilo HTML dentro del README:_
 
 ```html
 <p style="font-size:18px; color:#FF5733;">Texto con estilo personalizado.</p>
+
+## Ejecutar
+
+Coloque los archivos en un servidor con PHP y acceda a `index.php` desde el navegador.
