@@ -31,6 +31,16 @@ class Usuario extends Model
         return ['superadmin', 'admin', 'instructor', 'deportista', 'acudiente', 'tesorero'];
     }
 
+    public static function findByCorreo(string $correo): ?array
+    {
+        $sql = 'SELECT * FROM ' . self::$table . ' WHERE correo = :correo LIMIT 1';
+        $stmt = self::db()->prepare($sql);
+        $stmt->execute(['correo' => $correo]);
+        $result = $stmt->fetch();
+
+        return $result ?: null;
+    }
+
     public static function create(array $data): int
     {
         $sql = 'INSERT INTO ' . self::$table

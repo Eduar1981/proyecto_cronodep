@@ -13,6 +13,14 @@ class Controller
             return;
         }
 
+        ob_start();
+        include $contentFile;
+        $content = ob_get_clean();
+
+        if (!isset($title)) {
+            $title = $titulo ?? ($data['title'] ?? null);
+        }
+
         include __DIR__ . '/../views/layouts/main.php';
     }
 

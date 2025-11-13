@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+session_start();
+
 spl_autoload_register(function ($class) {
     $prefixes = [
         'App\\' => __DIR__ . '/../app/',
@@ -25,7 +27,10 @@ $config = require __DIR__ . '/../app/config/config.php';
 
 define('BASE_URL', rtrim($config['app']['base_url'], '/') ?: '/');
 
-templateGlobals(['appName' => $config['app']['name'], 'baseUrl' => BASE_URL]);
+templateGlobals([
+    'appName' => $config['app']['name'],
+    'baseUrl' => BASE_URL,
+]);
 
 if (!function_exists('route')) {
     function route(string $path, array $query = []): string

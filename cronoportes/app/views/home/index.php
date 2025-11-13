@@ -1,43 +1,34 @@
 <?php
-$titulo = 'Panel principal';
+$title = 'Bienvenido a CronoDep';
+$clubsRegistrados = $clubsRegistrados ?? 0;
 ?>
-<section class="dashboard">
-    <h2>Resumen general</h2>
-    <div class="dashboard-grid">
+<section class="landing">
+    <div class="landing-hero">
+        <h2>Gestión integral de entrenamientos y clubes deportivos</h2>
+        <p>
+            CronoDep centraliza el control de deportistas, entrenadores y pagos en una única plataforma.
+            Administra tus sesiones, registra la asistencia y genera reportes en segundos.
+        </p>
+        <div class="landing-actions">
+            <?php if ($clubsRegistrados === 0): ?>
+                <a class="btn" href="<?= htmlspecialchars(route('/register-club')) ?>">Crear mi primer club</a>
+            <?php else: ?>
+                <a class="btn" href="<?= htmlspecialchars(route('/login')) ?>">Iniciar sesión</a>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div class="landing-summary">
         <article class="card">
-            <h3>Total de usuarios</h3>
-            <p><?= count($usuarios) ?></p>
+            <h3>Roles soportados</h3>
+            <p>Superadmins, administradores, instructores, deportistas, acudientes y tesoreros.</p>
         </article>
         <article class="card">
-            <h3>Total de clubs</h3>
-            <p><?= count($clubs) ?></p>
+            <h3>Base de datos lista</h3>
+            <p>Compatibilidad con MariaDB y la estructura definida para clubes, usuarios y entrenamientos.</p>
+        </article>
+        <article class="card">
+            <h3>Seguridad integrada</h3>
+            <p>Inicio de sesión con contraseñas cifradas y control de acceso por roles.</p>
         </article>
     </div>
-</section>
-<section>
-    <h2>Usuarios recientes</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Documento</th>
-                <th>Rol</th>
-                <th>Club</th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php if (empty($usuarios)): ?>
-            <tr><td colspan="4">No hay usuarios registrados.</td></tr>
-        <?php else: ?>
-            <?php foreach (array_slice($usuarios, 0, 5) as $usuario): ?>
-                <tr>
-                    <td><?= htmlspecialchars($usuario['nombres'] . ' ' . $usuario['apellidos']) ?></td>
-                    <td><?= htmlspecialchars($usuario['documento']) ?></td>
-                    <td><?= htmlspecialchars($usuario['rol']) ?></td>
-                    <td><?= htmlspecialchars($usuario['nombre_club'] ?? 'Sin club') ?></td>
-                </tr>
-            <?php endforeach; ?>
-        <?php endif; ?>
-        </tbody>
-    </table>
 </section>

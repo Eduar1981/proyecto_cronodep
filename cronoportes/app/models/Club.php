@@ -35,4 +35,18 @@ class Club extends Model
 
         return (int) self::db()->lastInsertId();
     }
+
+    public static function countAll(): int
+    {
+        $stmt = self::db()->query('SELECT COUNT(*) AS total FROM ' . self::$table);
+        $row = $stmt->fetch();
+
+        return (int) ($row['total'] ?? 0);
+    }
+
+    public static function deleteById(int $id): void
+    {
+        $stmt = self::db()->prepare('DELETE FROM ' . self::$table . ' WHERE id_club = :id LIMIT 1');
+        $stmt->execute(['id' => $id]);
+    }
 }

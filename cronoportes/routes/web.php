@@ -1,17 +1,31 @@
 <?php
+use App\Controllers\AuthController;
+use App\Controllers\ClubController;
 use App\Controllers\HomeController;
 use App\Controllers\UsuarioController;
-use App\Controllers\ClubController;
+use App\Middleware\AuthMiddleware;
 
 return function (Core\Router $router) {
-    $router->get('/', [new HomeController(), 'index']);
+    $home = new HomeController();
+    $auth = new AuthController();
+    $usuarios = new UsuarioController();
+    $clubs = new ClubController();
 
-    $router->get('/usuarios', [new UsuarioController(), 'index']);
-    $router->get('/usuarios/crear', [new UsuarioController(), 'create']);
-    $router->post('/usuarios', [new UsuarioController(), 'store']);
-    $router->get('/usuarios/{id}', [new UsuarioController(), 'show']);
+    $router->get('/', [$home, 'index']);
+    $router->get('/login', [$auth, 'login']);
+    $router->post('/login', [$auth, 'auth']);
+    $router->post('/logout', [$auth, 'logout']);
+    $router->get('/register-club', [$auth, 'registerClub']);
+    $router->post('/register-club', [$auth, 'storeClub']);
 
-    $router->get('/clubs', [new ClubController(), 'index']);
-    $router->get('/clubs/crear', [new ClubController(), 'create']);
-    $router->post('/clubs', [new ClubController(), 'store']);
+    $router->get('/dashboard', AuthMiddleware::requireAuth([$home, 'dashboard']));
+
+    $router->get('/usuarios', AuthMiddleware::handle(['superadmin', 'admin'], [$usuarios, 'index']));
+    $router->get('/usuarios/crear', AuthMiddleware::handle(['superadmin', 'admin'], [$usuarios, 'create']));
+    $router->post('/usuarios', AuthMiddleware::handle(['superadmin', 'admin'], [$usuarios, 'store']));
+    $router->get('/usuarios/{id}', AuthMiddleware::handle(['superadmin', 'admin'], [$usuarios, 'show']));
+
+    $router->get('/clubs', AuthMiddleware::handle(['superadmin', 'admin'], [$clubs, 'index']));
+    $router->get('/clubs/crear', AuthMiddleware::handle(['superadmin'], [$clubs, 'create']));
+    $router->post('/clubs', AuthMiddleware::handle(['superadmin'], [$clubs, 'store']));
 };
